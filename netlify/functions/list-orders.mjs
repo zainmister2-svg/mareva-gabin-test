@@ -21,10 +21,7 @@ export default async (req) => {
     return json({ error: "Server belum dikonfigurasi" }, 503);
   }
 
-  const authorization = req.headers.get("authorization") || "";
-  const suppliedPassword = authorization.startsWith("Bearer ")
-    ? authorization.slice(7)
-    : "";
+  const suppliedPassword = req.headers.get("x-admin-password") || "";
 
   const a = Buffer.from(suppliedPassword);
   const b = Buffer.from(adminPassword);
