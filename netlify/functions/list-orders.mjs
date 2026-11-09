@@ -21,11 +21,11 @@ export default async (req) => {
     return json({ error: "Server belum dikonfigurasi" }, 503);
   }
 
-  const suppliedPassword = req.headers.get("x-admin-password") || "";
+  const suppliedPassword =
+    req.headers.get("x-admin-password") || "";
 
   const a = Buffer.from(suppliedPassword);
   const b = Buffer.from(adminPassword);
-
   const { timingSafeEqual } = await import("node:crypto");
 
   if (a.length !== b.length || !timingSafeEqual(a, b)) {
@@ -44,7 +44,10 @@ export default async (req) => {
     );
 
     if (!response.ok) {
-      return json({ error: "Gagal mengambil pesanan dari database" }, 502);
+      return json(
+        { error: "Gagal mengambil pesanan dari database" },
+        502
+      );
     }
 
     const orders = await response.json();
