@@ -101,7 +101,7 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
 <div class="box"><span class="gold">02</span><b>Konfirmasi WhatsApp</b><p>Kirim pesanan. Mareva akan mengonfirmasi stok, total, dan metode pembayaran.</p></div>
 <div class="box"><span class="gold">03</span><b>Atur pengiriman</b><p>Prioritas Kraksaan dan area sekitar sesuai jangkauan serta kemampuan menjaga produk tetap beku. Opsi ambil sendiri dapat dikonfirmasi lewat chat.</p></div>
 </div></div></section>
-<section id="dashboard" class="dashboard"><div class="wrap"><div class="eyebrow">Ringkasan usaha</div><h2>Dashboard Mareva</h2><p>Yuk, pesan favoritmu di Mareva Gabin! Nikmati pilihan minuman favorit dan jadilah bagian dari pelanggan spesial kami.</p><div class="dash-controls"><label for="dash-month">Pilih bulan:</label><select id="dash-month"></select></div><div class="dash-controls" style="margin-top:10px;gap:10px;flex-wrap:wrap"><button class="btn primary" id="load-online-orders" type="button">Muat data pesanan online</button><span id="online-orders-status" class="order-hint">Data online hanya bisa dilihat admin dengan kata sandi.</span></div><div class="dash-table-wrap"><h3>🏆 Top Pelanggan Mareva Gabin</h3><p class="leaderboard-intro">Terima kasih untuk pelanggan setia yang selalu memilih Mareva Gabin. Siapa yang bakal jadi pelanggan paling loyal bulan ini?</p><table class="dash-table"><thead><tr><th>Peringkat</th><th>Pelanggan</th><th>Jumlah pesanan</th><th>Total unit</th><th>Nilai pesanan</th></tr></thead><tbody id="leaderboard-body"><tr><td colspan="5">Belum ada data pesanan di perangkat ini.</td></tr></tbody></table></div></div></section>
+<section id="dashboard" class="dashboard"><div class="wrap"><div class="eyebrow">Ringkasan usaha</div><h2>Dashboard Mareva</h2><p>Yuk, pesan favoritmu di Mareva Gabin! Nikmati pilihan minuman favorit dan jadilah bagian dari pelanggan spesial kami.</p><div class="dash-controls"><label for="dash-month">Pilih bulan:</label><select id="dash-month"></select></div><div class="dash-controls" style="margin-top:10px;gap:10px;flex-wrap:wrap"><button class="btn primary" id="load-online-orders" type="button">Muat data pesanan online</button><span id="online-orders-status" class="order-hint">Data online hanya bisa dilihat admin dengan kata sandi.</span></div><div class="dash-table-wrap"><h3>🏆 Top Pelanggan Mareva Gabin</h3><p class="leaderboard-intro">Terima kasih untuk pelanggan setia yang selalu memilih Mareva Gabin. Siapa yang bakal jadi pelanggan paling loyal bulan ini?</p><table class="dash-table"><thead><tr><th>Peringkat</ctr><td colspan="5">Belum ada data pesanan di perangkat ini.</td></tr></tbody></table></div></div></section>
 <section id="kontak"><div class="wrap"><div class="cta"><div><div class="eyebrow">Ready for a treat?</div><h2>Yuk, pesan Mareva!</h2><p>Tanyakan stok, pilihan rasa, dan jadwal pengiriman melalui WhatsApp.</p></div><a class="btn primary" href="https://wa.me/6285746406318?text=Halo%20Mareva%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener">Chat Mareva ↗</a></div></div></section>
 </main><footer><div class="wrap">© 2026 Mareva Gabin · Kraksaan, Probolinggo, Jawa Timur</div></footer>
 
@@ -274,10 +274,9 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
       const items=Array.isArray(r.items) ? r.items : [];
       groups[key].units += items.reduce((sum,item)=>sum+Number(item.quantity || item.qty || 0),0);
       groups[key].total += Number(r.total || 0);
-    });
-    const ranked=Object.values(groups).sort((a,b)=>b.count-a.count||b.units-a.units);
-    document.getElementById('leaderboard-body').innerHTML=ranked.length?ranked.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</td><td>${r.count}</td><td>${r.units}</td><td>${fmt(r.total)}</td></tr>`).join(''):'<tr><td colspan="5">Belum ada data pesanan online untuk bulan ini. Admin perlu memuat data terlebih dahulu.</td></tr>';
+             const ranked=Object.values(groups).sort((a,b)=>b.count-a.count||b.units-a.units);
   }
+
   document.getElementById('load-online-orders').addEventListener('click', async () => {
     if (!adminPassword) adminPassword = window.prompt('Masukkan kata sandi admin untuk melihat pesanan online:') || '';
     if (!adminPassword) { statusEl.textContent='Belum masuk sebagai admin.'; return; }
@@ -295,9 +294,62 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
       statusEl.textContent=`Berhasil memuat ${onlineRecords.length} pesanan online.`;
     } catch (error) { statusEl.textContent=error.message || 'Gagal memuat data online.'; }
   });
-  monthSelect.addEventListener('change',renderDashboard);
+  monthSelect.addEventListener('change', () => {
+  renderDashboard();
+  loadPublicLeaderboard();
+});
+    
+async function loadPublicLeaderboard() {
+  const tbody = document.getElementById('leaderboard-body');
 
-  updateSummary(); renderDashboard();
+  try {
+    const response = await fetch(
+      'https://muddy-voice-988c.marevagabin6.workers.dev/public-top-customers'
+    );
+
+    if (!response.ok) {
+      throw new Error('Gagal mengambil Top Pelanggan');
+    }
+
+    const data = await response.json();
+    const customers = Array.isArray(data.customers)
+      ? data.customers
+      : [];
+
+    const escapeHTML = value =>
+      String(value).replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[c]);
+
+    tbody.innerHTML = customers.length
+      ? customers.map(c => `
+          <tr>
+            <td>${c.rank}</td>
+            <td>${escapeHTML(c.name)}</td>
+            <td>${c.count}</td>
+            <td>${c.units}</td>
+            <td>${Number(c.total || 0).toLocaleString('id-ID', {
+              style: 'currency',
+              currency: 'IDR',
+              maximumFractionDigits: 0
+            })}</td>
+          </tr>
+        `).join('')
+      : '<tr><td colspan="5">Belum ada data pelanggan.</td></tr>';
+
+  } catch (error) {
+    console.error('Top Pelanggan:', error);
+    tbody.innerHTML =
+      '<tr><td colspan="5">Top Pelanggan belum bisa dimuat.</td></tr>';
+  }
+}
+ updateSummary();
+renderDashboard();
+loadPublicLeaderboard();
 })();
 </script>
 
