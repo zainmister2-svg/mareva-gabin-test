@@ -310,19 +310,9 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
   for (let i=0;i<18;i++) { const d=new Date(now.getFullYear(),now.getMonth()-i,1); const v=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; const o=document.createElement('option'); o.value=v; o.textContent=d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}); monthSelect.appendChild(o); }
   const statusEl = document.getElementById('online-orders-status');
   function renderDashboard() {
-    const month=monthSelect.value;
-    const records=onlineRecords.filter(r => String(r.created_at || '').slice(0,7) === month);
-    const groups={};
-    records.forEach(r => {
-      const name=String(r.customer_name || 'Pelanggan');
-      const key=name.toLocaleLowerCase('id-ID').replace(/\s+/g,' ').trim();
-      if(!groups[key]) groups[key]={name:name.split(/\s+/)[0] + (name.split(/\s+/).length>1 ? ' •••' : ''),count:0,units:0,total:0};
-      groups[key].count++;
-      const items=Array.isArray(r.items) ? r.items : [];
-      groups[key].units += items.reduce((sum,item)=>sum+Number(item.quantity || item.qty || 0),0);
-      groups[key].total += Number(r.total || 0);
-             const ranked=Object.values(groups).sort((a,b)=>b.count-a.count||b.units-a.units);
-  }
+  // Tabel Top Pelanggan publik diisi oleh loadPublicLeaderboard().
+  // Jangan timpa tabel publik dengan data lokal admin.
+}
 
   document.getElementById('load-online-orders').addEventListener('click', async () => {
     if (!adminPassword) adminPassword = window.prompt('Masukkan kata sandi admin untuk melihat pesanan online:') || '';
