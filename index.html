@@ -101,7 +101,54 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
 <div class="box"><span class="gold">02</span><b>Konfirmasi WhatsApp</b><p>Kirim pesanan. Mareva akan mengonfirmasi stok, total, dan metode pembayaran.</p></div>
 <div class="box"><span class="gold">03</span><b>Atur pengiriman</b><p>Prioritas Kraksaan dan area sekitar sesuai jangkauan serta kemampuan menjaga produk tetap beku. Opsi ambil sendiri dapat dikonfirmasi lewat chat.</p></div>
 </div></div></section>
-<section id="dashboard" class="dashboard"><div class="wrap"><div class="eyebrow">Ringkasan usaha</div><h2>Dashboard Mareva</h2><p>Yuk, pesan favoritmu di Mareva Gabin! Nikmati pilihan minuman favorit dan jadilah bagian dari pelanggan spesial kami.</p><div class="dash-controls"><label for="dash-month">Pilih bulan:</label><select id="dash-month"></select></div><div class="dash-controls" style="margin-top:10px;gap:10px;flex-wrap:wrap"><button class="btn primary" id="load-online-orders" type="button">Muat data pesanan online</button><span id="online-orders-status" class="order-hint">Data online hanya bisa dilihat admin dengan kata sandi.</span></div><div class="dash-table-wrap"><h3>🏆 Top Pelanggan Mareva Gabin</h3><p class="leaderboard-intro">Terima kasih untuk pelanggan setia yang selalu memilih Mareva Gabin. Siapa yang bakal jadi pelanggan paling loyal bulan ini?</p><table class="dash-table"><thead><tr><th>Peringkat</ctr><td colspan="5">Belum ada data pesanan di perangkat ini.</td></tr></tbody></table></div></div></section>
+
+<section id="dashboard" class="dashboard">
+  <div class="wrap">
+    <div class="eyebrow">Ringkasan usaha</div>
+    <h2>Dashboard Mareva</h2>
+    <p>Yuk, pesan favoritmu di Mareva Gabin! Nikmati pilihan minuman favorit dan jadilah bagian dari pelanggan spesial kami.</p>
+
+    <div class="dash-controls">
+      <label for="dash-month">Pilih bulan:</label>
+      <select id="dash-month"></select>
+    </div>
+
+    <div class="dash-controls" style="margin-top:10px;gap:10px;flex-wrap:wrap">
+      <button class="btn primary" id="load-online-orders" type="button">
+        Muat data pesanan online
+      </button>
+      <span id="online-orders-status" class="order-hint">
+        Data online hanya bisa dilihat admin dengan kata sandi.
+      </span>
+    </div>
+
+    <div class="dash-table-wrap">
+      <h3>🏆 Top Pelanggan Mareva Gabin</h3>
+      <p class="leaderboard-intro">
+        Terima kasih untuk pelanggan setia yang selalu memilih Mareva Gabin.
+        Siapa yang bakal jadi pelanggan paling loyal bulan ini?
+      </p>
+
+      <table class="dash-table">
+        <thead>
+          <tr>
+            <th>Peringkat</th>
+            <th>Pelanggan</th>
+            <th>Jumlah pesanan</th>
+            <th>Total unit</th>
+            <th>Nilai pesanan</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr>
+            <td colspan="5">Memuat data Top Pelanggan...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <section id="kontak"><div class="wrap"><div class="cta"><div><div class="eyebrow">Ready for a treat?</div><h2>Yuk, pesan Mareva!</h2><p>Tanyakan stok, pilihan rasa, dan jadwal pengiriman melalui WhatsApp.</p></div><a class="btn primary" href="https://wa.me/6285746406318?text=Halo%20Mareva%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener">Chat Mareva ↗</a></div></div></section>
 </main><footer><div class="wrap">© 2026 Mareva Gabin · Kraksaan, Probolinggo, Jawa Timur</div></footer>
 
