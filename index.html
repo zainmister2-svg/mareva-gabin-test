@@ -235,7 +235,6 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
       payment_method: payment,
       status: 'Baru'
     };
-    const waWindow = window.open('about:blank', '_blank');
     let synced = false;
     try {
       const response = await fetch('https://muddy-voice-988c.marevagabin6.workers.dev/create-order', {
@@ -246,7 +245,7 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
       synced = response.ok;
       if (!response.ok) console.error('Pesanan tidak tersimpan ke database:', await response.text());
     } catch (error) { console.error('Tidak bisa menghubungi fungsi pesanan:', error); }
-    if (waWindow) { waWindow.location.href = whatsappUrl; } else { window.location.href = whatsappUrl; }
+   window.location.href = whatsappUrl;
     if (!synced) alert('Pesan WhatsApp tetap dibuka, bro. Namun pesanan belum tersimpan ke dashboard online. Pastikan fungsi Netlify dan pengaturan Supabase sudah dipasang.');
   });
   const paymentSelect = document.getElementById('payment-method');
