@@ -38,7 +38,8 @@ footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-s
 body.dashboard-first main>section:not(#dashboard){display:none}
 body.order-page main>section:not(#menu):not(#pesan){display:none}
 body.info-page main>section:not(#pengiriman):not(#kontak){display:none}
-body.order-page #dashboard,body.info-page #dashboard{display:none}
+body.stock-page main>section:not(#stock-section){display:none}
+body.order-page #dashboard,body.info-page #dashboard,body.stock-page #dashboard{display:none}
 .dashboard-entry{margin:18px 0 24px}.dashboard-entry .btn{margin-left:0}
 [hidden]{display:none !important}
 
@@ -48,7 +49,7 @@ body.order-page #dashboard,body.info-page #dashboard{display:none}
 .order-panel .order-summary { order: 2 !important; width: 100%; margin-top: 8px; padding-top: 18px; border-top: 1px solid var(--line); }
 
 </style></head><body class="dashboard-first">
-<header><nav class="wrap"><a class="logo" href="#">MAREVA <span>GABIN</span></a><div class="links"><a href="#dashboard" id="nav-dashboard">Dashboard</a><a href="#menu" id="nav-order">Pemesanan</a><a href="#pengiriman" id="nav-info">Cara Pemesanan</a></div></nav></header>
+<header><nav class="wrap"><a class="logo" href="#">MAREVA <span>GABIN</span></a><div class="links"><a href="#dashboard" id="nav-dashboard">Dashboard</a><a href="#menu" id="nav-order">Pemesanan</a><a href="#stock-section" id="nav-stock">Stok</a><a href="#pengiriman" id="nav-info">Cara Pemesanan</a></div></nav></header>
 <main>
 <section class="hero"><div class="wrap"><div class="eyebrow">Frozen dessert · Kraksaan, Probolinggo</div>
 <h1>A little treat.<br><span class="gold">A better day.</span></h1>
@@ -255,18 +256,20 @@ try {
     qrisPanel.hidden = paymentSelect.value !== 'QRIS';
   });
 
-  // Halaman 1: dashboard. Halaman 2: menu + formulir. Halaman 3: panduan dan kontak.
+  // Halaman 1: dashboard. Halaman 2: pemesanan. Halaman 3: stok. Halaman 4: panduan dan kontak.
   const pageBody = document.body;
   function setPage(page, target) {
-    pageBody.classList.remove('dashboard-first', 'order-page', 'info-page');
+    pageBody.classList.remove('dashboard-first', 'order-page', 'stock-page', 'info-page');
     pageBody.classList.add(page);
     document.getElementById(target).scrollIntoView({behavior:'smooth', block:'start'});
   }
   function showDashboard() { setPage('dashboard-first', 'dashboard'); }
   function showOrdering() { setPage('order-page', 'menu'); }
+  function showStock() { setPage('stock-page', 'stock-section'); }
   function showInfo() { setPage('info-page', 'pengiriman'); }
   document.getElementById('nav-dashboard').addEventListener('click', e => { e.preventDefault(); showDashboard(); });
   document.getElementById('nav-order').addEventListener('click', e => { e.preventDefault(); showOrdering(); });
+  document.getElementById('nav-stock').addEventListener('click', e => { e.preventDefault(); showStock(); });
   document.getElementById('nav-info').addEventListener('click', e => { e.preventDefault(); showInfo(); });
 
   // Formulir pemesanan tampil langsung di bawah katalog pada halaman Pemesanan.
@@ -439,10 +442,25 @@ loadPublicLeaderboard();
     return;
   }
 
+  const stockSection = document.createElement('section');
+  stockSection.id = 'stock-section';
+  stockSection.className = 'dashboard';
+  const stockWrap = document.createElement('div');
+  stockWrap.className = 'wrap';
+  const stockEyebrow = document.createElement('div');
+  stockEyebrow.className = 'eyebrow';
+  stockEyebrow.textContent = 'Kelola persediaan';
+  const stockPageHeading = document.createElement('h2');
+  stockPageHeading.textContent = 'Stok Produk Mareva';
+  stockWrap.append(stockEyebrow, stockPageHeading);
+  stockSection.appendChild(stockWrap);
+  document.querySelector('main').insertBefore(stockSection, document.getElementById('pengiriman'));
+
   const panel = document.createElement('div');
   panel.style.cssText =
-    'margin:24px 0;padding:18px;border:1px solid #d8c6ad;' +
-    'border-radius:12px;background:#fffaf3;color:#33251b';
+    'margin:24px 0;padding:20px;border:1px solid var(--line);' +
+    'border-radius:15px;background:var(--panel);color:var(--cream);' +
+    'box-shadow:0 8px 24px #00000020';
 
   const heading = document.createElement('h3');
   heading.textContent = '📦 Pengaturan Stok Produk';
@@ -458,7 +476,9 @@ loadPublicLeaderboard();
   password.autocomplete = 'current-password';
   password.placeholder = 'Kata sandi admin yang sudah ada';
   password.style.cssText =
-    'box-sizing:border-box;width:100%;padding:12px;margin:8px 0 16px';
+    'box-sizing:border-box;width:100%;padding:12px;margin:8px 0 16px;' +
+    'border:1px solid var(--line);border-radius:9px;' +
+    'background:var(--bg);color:var(--cream);font:inherit';
   panel.appendChild(password);
 
   const status = document.createElement('p');
@@ -470,12 +490,13 @@ loadPublicLeaderboard();
   variants.forEach(name => {
     const row = document.createElement('div');
     row.style.cssText =
-      'display:flex;gap:10px;align-items:center;' +
-      'flex-wrap:wrap;padding:10px 0;border-bottom:1px solid #eadfce';
+      'display:grid;grid-template-columns:minmax(0,1fr) 90px;' +
+      'gap:8px 10px;align-items:center;padding:12px 0;' +
+      'border-bottom:1px solid var(--line);color:var(--cream)';
 
     const title = document.createElement('strong');
     title.textContent = name;
-    title.style.flex = '1 1 130px';
+    title.style.cssText = 'grid-column:1 / -1;min-width:0';
 
     const quantity = document.createElement('input');
     quantity.type = 'number';
@@ -483,12 +504,18 @@ loadPublicLeaderboard();
     quantity.step = '1';
     quantity.value = '0';
     quantity.setAttribute('aria-label', 'Stok ' + name);
-    quantity.style.cssText = 'width:90px;padding:9px';
+    quantity.style.cssText =
+      'box-sizing:border-box;width:100%;padding:8px;border:1px solid var(--line);' +
+      'border-radius:8px;background:var(--bg);color:var(--cream);font:inherit';
 
     const save = document.createElement('button');
     save.type = 'button';
     save.textContent = 'Simpan stok';
-    save.style.cssText = 'padding:10px;cursor:pointer';
+    save.style.cssText =
+      'grid-column:1 / -1;justify-self:start;padding:6px 10px;' +
+      'font-size:12px;cursor:pointer;border:1px solid var(--gold);' +
+      'border-radius:7px;background:var(--gold);color:#211811;' +
+      'font-weight:600;font-family:inherit';
 
     save.addEventListener('click', async () => {
       const amount = Number(quantity.value);
@@ -545,11 +572,15 @@ loadPublicLeaderboard();
   const refresh = document.createElement('button');
   refresh.type = 'button';
   refresh.textContent = 'Muat ulang stok';
-  refresh.style.cssText = 'padding:10px;margin-top:14px;cursor:pointer';
+  refresh.style.cssText =
+    'padding:10px 14px;margin-top:14px;cursor:pointer;' +
+    'border:1px solid var(--gold);border-radius:8px;' +
+    'background:transparent;color:var(--gold);font:inherit';
   refresh.addEventListener('click', loadStock);
   panel.appendChild(refresh);
 
-  dashboard.insertBefore(panel, table);
+  // Panel stok berada di halaman tersendiri, yaitu halaman ke-3.
+  stockWrap.appendChild(panel);
 
   // Ambil stok terbaru dari database
   async function loadStock() {
