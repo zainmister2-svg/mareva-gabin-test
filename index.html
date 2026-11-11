@@ -390,4 +390,220 @@ loadPublicLeaderboard();
 })();
 </script>
 
+<script>
+(() => {
+  const API = 'https://muddy-voice-988c.marevagabin6.workers.dev';
+
+  const variants = [
+    'Cookies Cream',
+    'Cokelat',
+    'Matcha',
+    'Vanilla',
+    'Strawberry'
+  ];
+
+  const cards = [...document.querySelectorAll('#menu .card')];
+  const stockMap = new Map();
+  const labels = new Map();
+
+  // Tampilkan stok pada setiap produk
+  cards.forEach(card => {
+    const title = card.querySelector('h3');
+    const price = card.querySelector('.price');
+    const input = card.querySelector('.qty-input');
+
+    if (!title || !price || !input) return;
+
+    const name = title.textContent.trim();
+    if (!variants.includes(name)) return;
+
+    const label = document.createElement('p');
+    label.style.cssText =
+      'margin:8px 0;color:#7b5a35;font-weight:600;font-size:14px';
+    label.textContent = 'Memuat stok...';
+    price.insertAdjacentElement('afterend', label);
+
+    input.disabled = true;
+    input.value = 0;
+    input.min = 0;
+
+    labels.set(name, { label, input });
+  });
+
+  // Panel pengaturan stok di dashboard
+  const dashboard = document.querySelector('#dashboard .wrap');
+  const table = dashboard?.querySelector('.dash-table-wrap');
+
+  if (!dashboard || !table) {
+    console.error('Bagian dashboard tidak ditemukan.');
+    return;
+  }
+
+  const panel = document.createElement('div');
+  panel.style.cssText =
+    'margin:24px 0;padding:18px;border:1px solid #d8c6ad;' +
+    'border-radius:12px;background:#fffaf3;color:#33251b';
+
+  const heading = document.createElement('h3');
+  heading.textContent = '📦 Pengaturan Stok Produk';
+  panel.appendChild(heading);
+
+  const description = document.createElement('p');
+  description.textContent =
+    'Masukkan kata sandi admin dan jumlah stok hari ini.';
+  panel.appendChild(description);
+
+  const password = document.createElement('input');
+  password.type = 'password';
+  password.autocomplete = 'current-password';
+  password.placeholder = 'Kata sandi admin yang sudah ada';
+  password.style.cssText =
+    'box-sizing:border-box;width:100%;padding:12px;margin:8px 0 16px';
+  panel.appendChild(password);
+
+  const status = document.createElement('p');
+  status.setAttribute('role', 'status');
+  panel.appendChild(status);
+
+  const rows = new Map();
+
+  variants.forEach(name => {
+    const row = document.createElement('div');
+    row.style.cssText =
+      'display:flex;gap:10px;align-items:center;' +
+      'flex-wrap:wrap;padding:10px 0;border-bottom:1px solid #eadfce';
+
+    const title = document.createElement('strong');
+    title.textContent = name;
+    title.style.flex = '1 1 130px';
+
+    const quantity = document.createElement('input');
+    quantity.type = 'number';
+    quantity.min = '0';
+    quantity.step = '1';
+    quantity.value = '0';
+    quantity.setAttribute('aria-label', 'Stok ' + name);
+    quantity.style.cssText = 'width:90px;padding:9px';
+
+    const save = document.createElement('button');
+    save.type = 'button';
+    save.textContent = 'Simpan stok';
+    save.style.cssText = 'padding:10px;cursor:pointer';
+
+    save.addEventListener('click', async () => {
+      const amount = Number(quantity.value);
+
+      if (!password.value) {
+        status.textContent = 'Isi kata sandi admin dulu.';
+        password.focus();
+        return;
+      }
+
+      if (!Number.isSafeInteger(amount) || amount < 0) {
+        status.textContent = 'Jumlah stok harus bilangan bulat minimal 0.';
+        return;
+      }
+
+      save.disabled = true;
+      status.textContent = 'Menyimpan stok ' + name + '...';
+
+      try {
+        const response = await fetch(API + '/update-stock', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': password.value
+          },
+          body: JSON.stringify({
+            variant: name,
+            quantity: amount
+          }),
+          cache: 'no-store'
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Gagal menyimpan stok.');
+        }
+
+        status.textContent = 'Stok ' + name + ' berhasil disimpan: ' + amount;
+        await loadStock();
+      } catch (error) {
+        status.textContent =
+          'Gagal: ' + (error.message || 'Periksa koneksi website dan API.');
+      } finally {
+        save.disabled = false;
+      }
+    });
+
+    row.append(title, quantity, save);
+    panel.appendChild(row);
+    rows.set(name, quantity);
+  });
+
+  const refresh = document.createElement('button');
+  refresh.type = 'button';
+  refresh.textContent = 'Muat ulang stok';
+  refresh.style.cssText = 'padding:10px;margin-top:14px;cursor:pointer';
+  refresh.addEventListener('click', loadStock);
+  panel.appendChild(refresh);
+
+  dashboard.insertBefore(panel, table);
+
+  // Ambil stok terbaru dari database
+  async function loadStock() {
+    try {
+      const response = await fetch(API + '/stock', {
+        cache: 'no-store'
+      });
+
+      if (!response.ok) throw new Error('API stok tidak merespons.');
+
+      const data = await response.json();
+
+      variants.forEach(name => {
+        const item = data.stock.find(stock => stock.variant === name);
+        if (!item) throw new Error('Data stok ' + name + ' tidak ditemukan.');
+
+        const amount = Number(item.quantity);
+        stockMap.set(name, amount);
+        rows.get(name).value = amount;
+
+        const product = labels.get(name);
+        if (product) {
+          product.label.textContent = amount > 0
+            ? 'Stok tersedia: ' + amount + ' pcs'
+            : 'Stok habis';
+
+          product.input.disabled = amount <= 0;
+          product.input.max = String(amount);
+
+          if (amount <= 0 || Number(product.input.value) > amount) {
+            product.input.value = amount > 0 ? String(amount) : '0';
+          }
+
+          product.input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+
+      if (!status.textContent.startsWith('Stok ')) {
+        status.textContent = 'Stok terbaru berhasil dimuat.';
+      }
+    } catch (error) {
+      labels.forEach(product => {
+        product.label.textContent = 'Stok belum bisa dimuat';
+        product.input.disabled = true;
+      });
+
+      status.textContent =
+        'Gagal memuat stok. Periksa API dan koneksi website.';
+      console.error('Muat stok:', error);
+    }
+  }
+
+  loadStock();
+})();
+</script>
+
 </body></html>
