@@ -348,7 +348,10 @@ try {
   const monthSelect = document.getElementById('dash-month');
   const now = new Date();
   for (let i=0;i<18;i++) { const d=new Date(now.getFullYear(),now.getMonth()-i,1); const v=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; const o=document.createElement('option'); o.value=v; o.textContent=d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}); monthSelect.appendChild(o); }
-  monthSelect.addEventListener('change', () => {
+  function renderDashboard() {
+  // Top Pelanggan dimuat oleh loadPublicLeaderboard()
+}
+    monthSelect.addEventListener('change', () => {
   renderDashboard();
   loadPublicLeaderboard();
 });
