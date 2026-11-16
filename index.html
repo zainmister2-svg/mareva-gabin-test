@@ -263,7 +263,7 @@ footer{border-top:1px solid #6a4a2b;background:#17100c;color:#d9c7b2}
     let synced = false;
 
 try {
-      const response = await fetch('https://muddy-voice-988c.marevagabin6.workers.dev/create-order', {
+      const response = await fetch('https://mareva-gabin-test.marevagabin6.workers.dev/create-order', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(orderPayload)
@@ -358,7 +358,7 @@ async function loadPublicLeaderboard() {
 
   try {
     const response = await fetch(
-      'https://muddy-voice-988c.marevagabin6.workers.dev/public-top-customers'
+      'https://mareva-gabin-test.marevagabin6.workers.dev/public-top-customers'
     );
 
     if (!response.ok) {
@@ -409,7 +409,7 @@ loadPublicLeaderboard();
 
 <script>
 (() => {
-  const API = 'https://muddy-voice-988c.marevagabin6.workers.dev';
+  const API = 'https://mareva-gabin-test.marevagabin6.workers.dev';
 
   const variants = [
     'Cookies Cream',
