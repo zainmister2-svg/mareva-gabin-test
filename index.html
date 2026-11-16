@@ -7,7 +7,7 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 Arial,sans-serif}
 .wrap{width:min(1080px,92%);margin:auto}a{color:inherit;text-decoration:none}
 header{position:sticky;top:0;background:#171311ed;border-bottom:1px solid var(--line);z-index:3}
-nav{height:68px;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:900;letter-spacing:2px}.logo span,.gold{color:var(--gold)}.links{display:flex;gap:22px;color:var(--muted);font-size:14px}
+nav{height:68px;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:900;letter-spacing:2px}.logo span,.gold{color:var(--gold)}.links{display:flex;gap:9px;align-items:center;color:var(--muted);font-size:14px}.links a{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid transparent;border-radius:999px;color:var(--cream);font-weight:700;transition:background .18s ease,border-color .18s ease,transform .18s ease;white-space:nowrap}.links a:hover{border-color:#80664e;background:#2b211b;transform:translateY(-1px)}.links a{background:#251d19;border-color:#72563e;border-radius:12px;padding:10px 16px;box-shadow:0 3px 0 #0d0a08;font-size:14px}.links a:hover{border-color:var(--gold);background:#3b2a20;transform:translateY(-2px);box-shadow:0 5px 0 #0d0a08}.links a.active{background:var(--gold);border-color:var(--gold);color:#211811;box-shadow:0 3px 0 #8f6b3f;font-weight:800}
 .hero{padding:75px 0;background:radial-gradient(ellipse at 80% 20%,#503725,transparent 48%),linear-gradient(135deg,#241a15,#171311)}
 .eyebrow{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:12px;font-weight:bold}
 h1{font-size:clamp(42px,7vw,74px);line-height:1.04;letter-spacing:-2px;margin:18px 0}h2{font-size:36px;margin:8px 0}
@@ -33,7 +33,7 @@ footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-s
 .qris-image{border:1px solid var(--line)}.step-nav{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.step-pill{border:1px solid var(--line);padding:8px 13px;border-radius:24px;color:var(--muted);font-size:13px}.step-pill.active{background:var(--gold);color:#211811;border-color:var(--gold)}.dashboard{background:#1e1815}.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}.dash-stat{background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:15px}.dash-stat span{color:var(--muted);font-size:13px}.dash-stat strong{display:block;font-size:26px;color:var(--gold);margin-top:6px}.dash-table{width:100%;border-collapse:collapse;margin-top:12px}.dash-table th,.dash-table td{text-align:left;padding:11px;border-bottom:1px solid var(--line)}.dash-table th{color:var(--gold);font-size:13px}.dash-table-wrap{overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}.dash-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0}.dash-controls select{padding:10px;background:#171311;color:var(--cream);border:1px solid var(--line);border-radius:8px}.dash-note{font-size:12px;border-left:3px solid var(--gold);padding:10px 12px;background:#251d19}.leaderboard-intro{color:var(--muted);margin-top:4px;font-size:14px}
 
 @media(max-width:760px){.order-panel{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.info{grid-template-columns:1fr}.cta{display:block}.cta .btn{margin-top:15px}.links{gap:12px;font-size:12px}.card img{height:190px}}
-@media(max-width:600px){nav{height:auto;min-height:68px;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:12px 0}.links{width:100%;justify-content:space-between;gap:6px;font-size:12px;white-space:nowrap}.links a{display:inline-block}.logo{font-size:18px}}
+@media(max-width:600px){nav{height:auto;min-height:68px;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:12px 0}.links{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;font-size:12px;white-space:normal}.links a{display:flex;text-align:center;padding:10px 6px;border-color:#72563e;background:#251d19;border-radius:10px;box-shadow:0 2px 0 #0d0a08}.links a.active{background:var(--gold);border-color:var(--gold)}.logo{font-size:18px}}
 @media(max-width:430px){.card img{height:145px}.body{padding:12px}.body h3{font-size:16px}}
 body.dashboard-first main>section:not(#dashboard){display:none}
 body.order-page main>section:not(#menu):not(#pesan){display:none}
@@ -47,6 +47,45 @@ body.order-page #dashboard,body.info-page #dashboard,body.stock-page #dashboard{
 .order-panel { display: flex !important; flex-direction: column !important; }
 .order-panel #order-form { order: 1 !important; width: 100%; }
 .order-panel .order-summary { order: 2 !important; width: 100%; margin-top: 8px; padding-top: 18px; border-top: 1px solid var(--line); }
+
+
+/* MAREVA LUXURY DASHBOARD — responsive, accessible, no fabricated sales figures */
+:root{--bg:#17110d;--panel:#211811;--cream:#fff4e5;--muted:#c9b9a7;--gold:#efbd68;--line:#5a412b;--gold-soft:#d99b43}
+body{background:radial-gradient(ellipse at 50% 0%,#352315 0%,#1a130f 58%,#130e0b 100%);color:var(--cream)}
+header{position:sticky;top:0;background:rgba(20,14,10,.96);backdrop-filter:blur(14px);border-bottom:2px solid var(--gold);box-shadow:0 7px 26px #0006;z-index:30}
+nav.wrap{min-height:82px;gap:22px}
+.logo{font-weight:900;letter-spacing:.06em;color:var(--cream);font-size:clamp(18px,2vw,25px)}
+.logo span{color:var(--gold)}
+.links{gap:10px;align-items:center}
+.links a{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 18px;min-height:48px;border:1px solid #806244;border-radius:999px;background:linear-gradient(180deg,#2a2018,#1b140f);color:var(--cream);font-size:15px;font-weight:750;box-shadow:inset 0 1px #ffffff0b,0 3px 0 #090604;transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease}
+.links a::before{font-size:17px;color:var(--gold)}
+#nav-dashboard::before{content:'⌂'}#nav-order::before{content:'🛒'}#nav-stock::before{content:'◇'}#nav-info::before{content:'▤'}
+.links a:hover,.links a:focus-visible{border-color:var(--gold);background:#3a291a;transform:translateY(-2px);box-shadow:0 5px 0 #090604,0 0 18px #d99b432b;outline:none}
+.links a.active{background:linear-gradient(135deg,#ffe0a0,#d89b3f);border-color:#ffd68a;color:#1b1209;box-shadow:0 0 0 2px #d99b4333,0 4px 0 #6f4519,0 0 22px #e5ad594d}
+.links a.active::before{color:#1b1209}
+body.dashboard-first main>section:not(#dashboard){display:none}
+#dashboard.dashboard{min-height:calc(100vh - 150px);padding:28px 0 34px;background:transparent}
+.dashboard-wrap{max-width:1480px}
+.dashboard-welcome{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:space-between;min-height:205px;overflow:hidden;padding:28px clamp(22px,4vw,48px);border:1px solid #6c4e31;border-radius:25px;background:radial-gradient(ellipse at 80% 30%,#6b4426 0%,#352219 31%,#1d1510 75%);box-shadow:inset 0 1px #fff1,0 12px 32px #0003}
+.dashboard-welcome:after{content:'';position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);z-index:-1}
+.welcome-copy{position:relative;z-index:2;max-width:680px}.welcome-copy .eyebrow{color:var(--gold);font-weight:800;letter-spacing:.12em}
+.welcome-copy h2{margin:10px 0 8px;font-size:clamp(30px,3.3vw,48px);line-height:1.12;color:#fff5e7}.welcome-gold{color:var(--gold)}
+.welcome-copy p{max-width:540px;color:#e0d1c0;font-size:clamp(15px,1.5vw,18px);margin:0 0 17px}
+.welcome-copy .btn{border-radius:999px;padding:12px 20px;box-shadow:0 4px 0 #764b1d}
+.welcome-art{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:250px;height:170px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.art-cookie{font-size:clamp(76px,9vw,120px);filter:drop-shadow(0 10px 12px #0008);transform:rotate(-13deg)}.art-choco{position:absolute;right:0;bottom:7px;font-size:60px;filter:drop-shadow(0 8px 10px #0008);transform:rotate(12deg)}.art-spark{position:absolute;color:#ffdc8a;font-size:42px;text-shadow:0 0 15px #ffc35c}.spark-one{left:4px;top:3px}.spark-two{right:5px;top:12px}
+.dashboard-highlights{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0 24px}
+.highlight-card{display:flex;align-items:center;gap:14px;min-width:0;padding:17px;border:1px solid #5b432d;border-radius:20px;background:linear-gradient(145deg,#2a2018,#19120e);box-shadow:inset 0 1px #ffffff09,0 7px 20px #0002}
+.highlight-icon{flex:0 0 54px;width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#ffe2a3,#d99b43);font-size:25px;box-shadow:0 3px 12px #0003}
+.highlight-card strong,.highlight-card span:not(.highlight-icon){display:block}.highlight-card strong{font-size:clamp(14px,1.3vw,18px);line-height:1.25;color:#fff1dd}.highlight-card div span{margin-top:4px;color:var(--muted);font-size:13px;line-height:1.3}
+.dash-content-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:26px 0 14px}.dash-content-head h2{margin:5px 0;font-size:clamp(23px,2vw,30px)}.dash-content-head .eyebrow{font-size:11px;letter-spacing:.14em;color:var(--gold);font-weight:800}.dash-content-head p{margin:4px 0 0}
+.dash-controls{margin:0;display:flex;align-items:center;gap:9px;color:var(--muted)}.dash-controls select{border:1px solid #775633;border-radius:999px;background:#211811;color:var(--cream);padding:10px 15px;min-height:42px}
+.dashboard-leaderboard{border:1px solid #57402b;border-radius:22px;padding:12px 18px;background:linear-gradient(145deg,#241a13,#17110d);box-shadow:0 10px 26px #0002}
+.dash-table{margin-top:0}.dash-table th{color:var(--gold);font-weight:800}.dash-table th,.dash-table td{padding:14px 12px;border-bottom:1px solid #3b2b1d}.dash-table tbody tr:hover{background:#ffffff06}.dash-table td{color:#eee0cf}
+footer{border-top:1px solid #6a4a2b;background:#17100c;color:#d9c7b2}
+@media(max-width:900px){nav.wrap{align-items:flex-start;flex-direction:column;justify-content:center;padding:13px 0;gap:10px}.links{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.links a{padding:10px 8px;font-size:13px}.welcome-art{right:1%;opacity:.8}.welcome-copy{max-width:70%}.dashboard-highlights{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){nav.wrap{gap:9px}.links{grid-template-columns:repeat(2,minmax(0,1fr))}.links a{min-height:44px;padding:10px 6px;border-radius:13px;font-size:13px}.dashboard-welcome{min-height:230px;padding:24px 20px;align-items:flex-start}.welcome-copy{max-width:100%}.welcome-copy h2{font-size:30px;max-width:290px}.welcome-copy p{max-width:270px;font-size:14px}.welcome-art{right:-32px;bottom:-28px;top:auto;transform:none;opacity:.32}.art-cookie{font-size:110px}.art-choco{font-size:48px}.dashboard-highlights{gap:9px}.highlight-card{padding:12px;gap:10px;border-radius:15px}.highlight-icon{flex-basis:42px;width:42px;height:42px;font-size:20px}.highlight-card strong{font-size:13px}.highlight-card div span{font-size:11px}.dash-content-head{align-items:flex-start;flex-direction:column}.dash-controls{align-self:flex-start}.dashboard-leaderboard{padding:8px;overflow:auto}.dash-table{min-width:650px}.dash-table th,.dash-table td{padding:11px 8px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){.links a{transition:none}}
 
 </style></head><body class="dashboard-first">
 <header><nav class="wrap"><a class="logo" href="#">MAREVA <span>GABIN</span></a><div class="links"><a href="#dashboard" id="nav-dashboard">Dashboard</a><a href="#menu" id="nav-order">Pemesanan</a><a href="#stock-section" id="nav-stock">Stok</a><a href="#pengiriman" id="nav-info">Cara Pemesanan</a></div></nav></header>
@@ -104,47 +143,32 @@ body.order-page #dashboard,body.info-page #dashboard,body.stock-page #dashboard{
 </div></div></section>
 
 <section id="dashboard" class="dashboard">
-  <div class="wrap">
-    <div class="eyebrow">Ringkasan usaha</div>
-    <h2>Dashboard Mareva</h2>
-    <p>Yuk, pesan favoritmu di Mareva Gabin! Nikmati pilihan minuman favorit dan jadilah bagian dari pelanggan spesial kami.</p>
-
-    <div class="dash-controls">
-      <label for="dash-month">Pilih bulan:</label>
-      <select id="dash-month"></select>
+  <div class="wrap dashboard-wrap">
+    <div class="dashboard-welcome">
+      <div class="welcome-copy">
+        <div class="eyebrow">✦ COOKIES &amp; DESSERT PREMIUM</div>
+        <h2>Selamat Datang di<br><span class="welcome-gold">Mareva Gabin!</span></h2>
+        <p>Gabin es krim premium dengan rasa favorit untuk hari yang lebih manis.</p>
+        <a class="btn primary" href="#menu" id="dashboard-order-cta">🛒 Lihat Pemesanan</a>
+      </div>
+      <div class="welcome-art" aria-hidden="true"><span class="art-spark spark-one">✧</span><span class="art-cookie">🍪</span><span class="art-choco">🍫</span><span class="art-spark spark-two">♡</span></div>
     </div>
 
-    <div class="dash-controls" style="margin-top:10px;gap:10px;flex-wrap:wrap">
-      <button class="btn primary" id="load-online-orders" type="button">
-        Muat data pesanan online
-      </button>
-      <span id="online-orders-status" class="order-hint">
-        Data online hanya bisa dilihat admin dengan kata sandi.
-      </span>
+    <div class="dashboard-highlights" aria-label="Informasi Mareva Gabin">
+      <article class="highlight-card"><span class="highlight-icon">🍨</span><div><strong>5 Pilihan Rasa</strong><span>Temukan rasa favoritmu</span></div></article>
+      <article class="highlight-card"><span class="highlight-icon">🛒</span><div><strong>Pemesanan Mudah</strong><span>Pilih produk lalu pesan</span></div></article>
+      <article class="highlight-card"><span class="highlight-icon">📦</span><div><strong>Info Stok Produk</strong><span>Cek ketersediaan rasa</span></div></article>
+      <article class="highlight-card"><span class="highlight-icon">🏆</span><div><strong>Pelanggan Setia</strong><span>Apresiasi untuk pelanggan</span></div></article>
     </div>
 
-    <div class="dash-table-wrap">
-      <h3>🏆 Top Pelanggan Mareva Gabin</h3>
-      <p class="leaderboard-intro">
-        Terima kasih untuk pelanggan setia yang selalu memilih Mareva Gabin.
-        Siapa yang bakal jadi pelanggan paling loyal bulan ini?
-      </p>
-
+    <div class="dash-content-head">
+      <div><div class="eyebrow">KOMUNITAS MAREVA</div><h2>🏆 Top Pelanggan</h2><p class="leaderboard-intro">Terima kasih sudah menjadi bagian dari Mareva Gabin.</p></div>
+      <div class="dash-controls"><label for="dash-month">Periode:</label><select id="dash-month" aria-label="Pilih bulan"></select></div>
+    </div>
+    <div class="dash-table-wrap dashboard-leaderboard">
       <table class="dash-table">
-        <thead>
-          <tr>
-            <th>Peringkat</th>
-            <th>Pelanggan</th>
-            <th>Jumlah pesanan</th>
-            <th>Total unit</th>
-            <th>Nilai pesanan</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          <tr>
-            <td colspan="5">Memuat data Top Pelanggan...</td>
-          </tr>
-        </tbody>
+        <thead><tr><th>Peringkat</th><th>Pelanggan</th><th>Jumlah pesanan</th><th>Total unit</th><th>Nilai pesanan</th></tr></thead>
+        <tbody id="leaderboard-body"><tr><td colspan="5">Memuat data Top Pelanggan...</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -258,19 +282,31 @@ try {
 
   // Halaman 1: dashboard. Halaman 2: pemesanan. Halaman 3: stok. Halaman 4: panduan dan kontak.
   const pageBody = document.body;
+  const pageNav = {
+    'dashboard-first': document.getElementById('nav-dashboard'),
+    'order-page': document.getElementById('nav-order'),
+    'stock-page': document.getElementById('nav-stock'),
+    'info-page': document.getElementById('nav-info')
+  };
   function setPage(page, target) {
     pageBody.classList.remove('dashboard-first', 'order-page', 'stock-page', 'info-page');
     pageBody.classList.add(page);
-    document.getElementById(target).scrollIntoView({behavior:'smooth', block:'start'});
+    Object.entries(pageNav).forEach(([pageName, link]) => {
+      const active = pageName === page;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    const destination = document.getElementById(target);
+    if (destination) destination.scrollIntoView({behavior:'smooth', block:'start'});
   }
-  function showDashboard() { setPage('dashboard-first', 'dashboard'); }
-  function showOrdering() { setPage('order-page', 'menu'); }
-  function showStock() { setPage('stock-page', 'stock-section'); }
-  function showInfo() { setPage('info-page', 'pengiriman'); }
   document.getElementById('nav-dashboard').addEventListener('click', e => { e.preventDefault(); showDashboard(); });
   document.getElementById('nav-order').addEventListener('click', e => { e.preventDefault(); showOrdering(); });
   document.getElementById('nav-stock').addEventListener('click', e => { e.preventDefault(); showStock(); });
   document.getElementById('nav-info').addEventListener('click', e => { e.preventDefault(); showInfo(); });
+  const dashboardOrderCta = document.getElementById('dashboard-order-cta');
+  if (dashboardOrderCta) dashboardOrderCta.addEventListener('click', e => { e.preventDefault(); showOrdering(); });
+  setPage('dashboard-first', 'dashboard');
 
   // Formulir pemesanan tampil langsung di bawah katalog pada halaman Pemesanan.
   const deliverySelect = document.getElementById('delivery-method');
@@ -304,36 +340,9 @@ try {
   });
   updateDelivery();
 
-  // Dashboard online: data pesanan diambil dari Netlify Function yang dilindungi kata sandi admin.
-  let onlineRecords = [];
-  let adminPassword = '';
-  const fmt = value => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(value || 0);
   const monthSelect = document.getElementById('dash-month');
   const now = new Date();
   for (let i=0;i<18;i++) { const d=new Date(now.getFullYear(),now.getMonth()-i,1); const v=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; const o=document.createElement('option'); o.value=v; o.textContent=d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}); monthSelect.appendChild(o); }
-  const statusEl = document.getElementById('online-orders-status');
-  function renderDashboard() {
-  // Tabel Top Pelanggan publik diisi oleh loadPublicLeaderboard().
-  // Jangan timpa tabel publik dengan data lokal admin.
-}
-
-  document.getElementById('load-online-orders').addEventListener('click', async () => {
-    if (!adminPassword) adminPassword = window.prompt('Masukkan kata sandi admin untuk melihat pesanan online:') || '';
-    if (!adminPassword) { statusEl.textContent='Belum masuk sebagai admin.'; return; }
-    statusEl.textContent='Mengambil data pesanan online…';
-    try {
-      const response = await fetch('https://muddy-voice-988c.marevagabin6.workers.dev/list-orders', { headers: { 'x-admin-password': adminPassword } });
-      if (response.status === 401 || response.status === 403) { adminPassword=''; statusEl.textContent='Kata sandi salah. Klik tombol dan coba lagi.'; return; }
-      if (!response.ok) {
-  const detail = await response.text();
-  throw new Error('Error database (' + response.status + '): ' + detail);
-}
-      const data = await response.json();
-      onlineRecords = Array.isArray(data.orders) ? data.orders : [];
-      renderDashboard();
-      statusEl.textContent=`Berhasil memuat ${onlineRecords.length} pesanan online.`;
-    } catch (error) { statusEl.textContent=error.message || 'Gagal memuat data online.'; }
-  });
   monthSelect.addEventListener('change', () => {
   renderDashboard();
   loadPublicLeaderboard();
