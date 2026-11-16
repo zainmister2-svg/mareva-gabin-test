@@ -300,6 +300,11 @@ try {
     const destination = document.getElementById(target);
     if (destination) destination.scrollIntoView({behavior:'smooth', block:'start'});
   }
+  // Define all four navigation actions before attaching click handlers.
+  function showDashboard() { setPage('dashboard-first', 'dashboard'); }
+  function showOrdering() { setPage('order-page', 'menu'); }
+  function showStock() { setPage('stock-page', 'stock-section'); }
+  function showInfo() { setPage('info-page', 'pengiriman'); }
   document.getElementById('nav-dashboard').addEventListener('click', e => { e.preventDefault(); showDashboard(); });
   document.getElementById('nav-order').addEventListener('click', e => { e.preventDefault(); showOrdering(); });
   document.getElementById('nav-stock').addEventListener('click', e => { e.preventDefault(); showStock(); });
